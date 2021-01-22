@@ -28,12 +28,11 @@ export class EventBus {
     }
 
     publish(event: Symbol, ...args: readonly any[]) {
-        console.log(args, 'args=====')
         subscriptions.get(event)?.forEach(subscriber => subscriber(args));
     }
 }
 
-
+export type UnSubscriber = () => void;
 
 interface Disconnect {
     disconnect: UnSubscriber;
@@ -76,7 +75,6 @@ export class Atom<T> extends Stateful<T, string> {
 }
 
 type SelectorGenerator<T> = (context: { get: <V>(dep: Stateful<V, string>) => V }) => T;
-
 
 export class Selector<T> extends Stateful<T, string> {
 
